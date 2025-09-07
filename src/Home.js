@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BlogList from "./Bloglist";
+import useFetch  from "./useFetch";
 
 const Home = () => {
 
-    const [blogs, setBlogs] = useState([
-    { title: 'My new website', body: 'lorem ipsum...', author: 'Gaurav', id: 1 },
-    { title: 'Welcome party!', body: 'lorem ipsum...', author: 'Navnath', id: 2 },
-    { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'Om', id: 3 }
-  ]);
+   const { error, isPending, data: blogs } = useFetch('http://localhost:8000/blogs')
 
-  const handleDelete = (id) => {
-    
-  }
+    // const [blogs, setBlogs] = useState(null);
+    //  const [isPending, setIsPending] = useState(true);
+    //  const [error, setError] = useState(null);
+
+    // const handleDelete = (id) => {
+    //   const newBlogs = blogs.filter(blog => blog.id !== id);
+    //   setBlogs(newBlogs);
+    // }
+
+    // const [name, setName] = useState("Gaurav");
 
     // const [name, setName] = useState("Om");
     // const [age, setAge] = useState(16);
@@ -32,9 +36,16 @@ const Home = () => {
 
     return ( 
         <div className="home">
+          { error && <div>{ error }</div> }
+          { isPending && <div>Loading...</div> }
+           {blogs && <BlogList blogs={blogs} title="All Blogs" />}
 
-             <BlogList blogs={blogs} title="All Blogs" handleDelete={handleDelete} />
-             <BlogList blogs={blogs.filter((blog) => blog.author === "Gaurav")} title="Gaurav's Blogs" />
+             {/* {blogs && <BlogList blogs={blogs} title="All Blogs" handleDelete={handleDelete} />} */}
+
+             {/* <button onClick={() => setName('Navnath')}>Change Name</button> */}
+             {/* <p>{name}</p> */}
+
+             {/* <BlogList blogs={blogs.filter((blog) => blog.author === "Gaurav")} title="Gaurav's Blogs" /> */}
 
              {/* {blogs.map(blog => (
                 <div className="blog-preview" key={blog.id} >
